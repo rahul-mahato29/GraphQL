@@ -21,4 +21,18 @@ public class ProductService {
     public List<ProductEntity> getProductsByCategory(@PathVariable String category){
         return productRepository.findByCategory(category);
     }
+
+    //sales team : update the stock of a product in inventory service
+    public ProductEntity updateStock(Long id, Integer quantity){
+        ProductEntity product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("product not found with id : {}"+id));
+        product.setStock(quantity);
+        return productRepository.save(product);
+    }
+
+    //warehouse : receive new shipment, update in db
+    public ProductEntity receivedNewShipment(Long id, Integer quantity){
+        ProductEntity existingProduct = productRepository.findById(id).orElseThrow(() -> new RuntimeException("product not found with id : {}"+id));
+        existingProduct.setStock(existingProduct.getStock() + quantity);
+        return productRepository.save(existingProduct);
+    }
 }
