@@ -23,7 +23,7 @@ public class ProductService {
     }
 
     //sales team : update the stock of a product in inventory service
-    public ProductEntity updateStock(Long id, Integer quantity){
+    public ProductEntity updateStock(Long id, int quantity){
         ProductEntity product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("product not found with id : {}"+id));
         product.setStock(quantity);
         return productRepository.save(product);
